@@ -1,5 +1,4 @@
-% clc; clear all; close all;
-tic
+clc; clear all; close all;
 %% Autonomous Vehicle Steering Using Model Predictive Control
 % This example shows how to implement an autonomous vehicle steering system
 % using model predictive control (MPC).
@@ -39,14 +38,12 @@ addpath(fullfile(matlabroot,'examples','mpc_featured','main'));
 % * |Cf| is the cornering stiffness of the front tires (N/rad).
 % * |Cr| is the cornering stiffness of the rear tires (N/rad).
 %
-sr = 0.5 ;%1 follows the trajectory not perfect,1.5--> perfect following,0.5-->better than 1 
+sr = 0.3;%1 follows the trajectory not perfect,1.5--> perfect following,0.5-->better than 1 
 % 0.1--> follows 
 % 0.2 --> the Y follows about the yaw angles doesnt follow and makes the
 % trajectory messy
 % 0.3--> same as 0.2
-% 0.4--> way better than 0.2
-% 0.5--> improves
-% 0.6--> getting better
+% 0.4
 m = 1575;
 I = 2875;
 a = 1.2;
@@ -141,8 +138,8 @@ mpc1.Optimizer.CustomCostFcn = true;
 %% 
 % To ensure driver comfort, constrain the rate of change of the steering
 % angle to |0.26| rad/s (approximately 15 deg/s).
-mpc1.MV.RateMin = -1;
-mpc1.MV.RateMax = 1;
+mpc1.MV.RateMin = -0.26;
+mpc1.MV.RateMax = 0.26;
 
 %%
 % To ensure tracking performance for both position $Y$ and yaw angle
@@ -175,4 +172,3 @@ plotSimulation(logsout,Vx,time)
 % Remove example file folder from MATLAB path, and close Simulink model.
 rmpath(fullfile(matlabroot,'examples','mpc_featured','main'));
 bdclose(mdl)
-toc
